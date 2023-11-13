@@ -63,7 +63,7 @@ const getAnimeInfoByID = async (id, isBasic) => {
 const indexLoaded = []
 
 const loadPageList = async (page) => {
-    const getAnimeList = await (await fetch('../data/aniInfo.json')).json();
+    const getAnimeList = await (await fetch('./src/data/aniInfo.json')).json();
     for (const e of document.getElementById('animeList').getElementsByClassName('anime_item')) {
         e.style.display = 'none';
     }
@@ -100,7 +100,7 @@ const innerText = (id, value) => {
 
 const loadInfoByIndex = async (index, isIndex) => {
     canClick = false;
-    const infoData = (isIndex) ? (await getAnimeInfoByID(((await (await fetch('../data/aniInfo.json')).json()))[index].id)).Media : (await getAnimeInfoByID(index)).Media;
+    const infoData = (isIndex) ? (await getAnimeInfoByID(((await (await fetch('./src/data/aniInfo.json')).json()))[index].id)).Media : (await getAnimeInfoByID(index)).Media;
 
     const studios = [], product = [];
     infoData.studios.edges.forEach(v => {
@@ -131,7 +131,7 @@ document.getElementById('inputPage').oninput = async (e) => {
 document.getElementById('inputPage').onkeydown = async (e) => {
     if (e.code === 'Enter') {
         try {
-            const aniList = (await (await fetch('../data/aniInfo.json')).json()).length
+            const aniList = (await (await fetch('./src/data/aniInfo.json')).json()).length
             e.target.value = (+e.target.value < (aniList / 10)) ? e.target.value : Math.floor(aniList / 10);
             loadPageList(+e.value);
         } catch (error) {
@@ -154,14 +154,14 @@ document.getElementById('getAnimeByID').onkeydown = async (e) => {
 
 document.getElementById('pageLeft').onclick = async () => {
     const e = document.getElementById('inputPage');
-    const aniList = (await (await fetch('../data/aniInfo.json')).json()).length;
+    const aniList = (await (await fetch('./src/data/aniInfo.json')).json()).length;
     e.value = (+e.value - 1 < 0) ? Math.floor(aniList / 10) : e.value - 1;
     loadPageList(+e.value);
 }
 
 document.getElementById('pageRight').onclick = async () => {
     const e = document.getElementById('inputPage');
-    const aniList = (await (await fetch('../data/aniInfo.json')).json()).length;
+    const aniList = (await (await fetch('./src/data/aniInfo.json')).json()).length;
     e.value = (+e.value + 1 > (aniList / 10)) ? 0 : +e.value + 1;
     loadPageList(+e.value);
 }
