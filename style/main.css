@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(to bottom, #0003, #000B), url('/style/background.png');
+    background: linear-gradient(to bottom, #0003, #000B), url('./background.png');
     background-size: cover;
     background-position: center;
     overflow: hidden;
