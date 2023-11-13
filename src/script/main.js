@@ -65,13 +65,28 @@ const getAnimeInfoByID = async (id, isBasic) => {
     }
 }
 
+let currAPIKey = 0;
+const apiKeyList = [
+    'AIzaSyDXHeKauCPw25g0szqSm4_j6mC8Pu79csY',
+    'AIzaSyCgRu_nOpvjhvay6jZmqfiTm6Re_Nsb5as',
+    'AIzaSyBBMiW4e10NcKdBvPrqICpu5MX7_LD9hUI',
+    'AIzaSyA-JilwxHUyuA6pL1URp63Gm1JhrpKPCxs'
+]
+
 const searchFandom = async (name) => {
-    return (await (await fetch(`https://www.googleapis.com/customsearch/v1?q=anime fandom ${name}&key=AIzaSyDXHeKauCPw25g0szqSm4_j6mC8Pu79csY&cx=122cd0496ab3640c3&num=1`)).json()).items[0].link
+    try {
+        return (await (await fetch(`https://www.googleapis.com/customsearch/v1?q=anime fandom ${name}&key=${apiKeyList[currAPIKey]}&cx=122cd0496ab3640c3&num=1`)).json()).items[0].link
+    } catch (error) {
+        currAPIKey++;
+        return searchFandom(name);
+    }
 }
 
 const indexLoaded = []
+let currentPageNow = 0
 
 const loadPageList = async (page) => {
+    currentPageNow = page;
     const getAnimeList = await (await fetch('./src/data/aniInfo.json')).json();
     for (const e of document.getElementById('animeList').getElementsByClassName('anime_item')) {
         e.style.display = 'none';
@@ -79,11 +94,12 @@ const loadPageList = async (page) => {
     for (let animeIndex = page * 10; animeIndex < (page + 1) * 10; animeIndex++) {
         if (animeIndex < getAnimeList.length) {
             if (indexLoaded.includes(animeIndex)) {
-                document.getElementById('animeList').querySelectorAll(`[index=${animeIndex}]`)[0].style.display = ''
+                document.getElementById('animeList').querySelectorAll(`[index="${animeIndex}"]`)[0].style.display = ''
             } else {
-                const data = (await getAnimeInfoByID(getAnimeList[animeIndex].id, true)).Media;
+                const data = (await getAnimeInfoByID(getAnimeList[animeIndex], true)).Media;
                 const aniBtn = document.createElement('button');
                 aniBtn.className = 'anime_item';
+                aniBtn.style.display = ((currentPageNow * 10) <= animeIndex && animeIndex < ((currentPageNow + 1) * 10)) ? '' : 'none';
                 aniBtn.setAttribute('index', `${animeIndex}`);
                 aniBtn.innerHTML = `<img class="anime_thumb"src="${data.coverImage.large}"><div class="anime_info"><div class="anime_name"><a>${data.title.romaji}</a></div><div class="anime_description"><a>${data.description}</a></div><div class="episodes"><a>Episodes: ${data.episodes} - Season Year: ${data.seasonYear}</a></div></div>`
                 indexLoaded.push(animeIndex);
@@ -111,7 +127,7 @@ const innerText = (id, value) => {
 const loadInfoByIndex = async (index, isIndex) => {
     try {
         canClick = false;
-        const infoData = (isIndex) ? (await getAnimeInfoByID(((await (await fetch('./src/data/aniInfo.json')).json()))[index].id)).Media : (await getAnimeInfoByID(index)).Media;
+        const infoData = (isIndex) ? (await getAnimeInfoByID(((await (await fetch('./src/data/aniInfo.json')).json()))[index])).Media : (await getAnimeInfoByID(index)).Media;
 
         const studios = [], product = [];
         infoData.studios.edges.forEach(v => {
@@ -136,6 +152,7 @@ const loadInfoByIndex = async (index, isIndex) => {
 
         const searchItem = new URL(await searchFandom(infoData.title.romaji)).origin;
         document.getElementById('setFandomURL').href = searchItem;
+        document.getElementById('setSpotifyURL').href = `https://aniplaylist.com/${infoData.title.romaji}`;
         document.getElementById('fandomImage').src = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=64&url=${searchItem}`
 
         if (infoData.trailer?.id) {

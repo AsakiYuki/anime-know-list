@@ -334,7 +334,7 @@ iframe#video_trailer {
     margin-bottom: 5px;
 }
 
-img#fandomImage {
+img.fandomImage {
     border-radius: 2px;
     padding: 5px;
     background-color: #FFF;
