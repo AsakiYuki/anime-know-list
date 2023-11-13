@@ -132,7 +132,7 @@ const loadInfoByIndex = async (index, isIndex) => {
 
         if (infoData.trailer?.id) {
             document.getElementById('video_trailer').style.display = ''
-            document.getElementById('video_trailer').src = `https://www.youtube.com/embed/${infoData.trailer?.id}`
+            document.getElementById('video_trailer').src = `https://www.youtube.com/embed/${infoData.trailer?.id}?autoplay=1`
         }
         else
             document.getElementById('video_trailer').style.display = 'none'
