@@ -1,0 +1,53 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Know List - for ANILIST</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/style/main.css">
+    <link rel="icon" type="image/x-icon" href="/style/website_icon.png">
+</head>
+
+<body>
+    <div class="body">
+        <div class="search">
+            <input class="search fa" placeholder=" Search Anime By ID . . ." id="getAnimeByID">
+        </div>
+        <div class="list" id="animeList">
+            <div class="pageChange" id="changePage">
+                <button id="pageLeft">
+                    <<< </button><input value="0" id="inputPage"><button id="pageRight"> >>> </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="anime_full_detail" class="anime_full_detail" style="display: none;">
+        <div class="detail_popup">
+            <button id="closeButton">x</button>
+            <div class="full_anime_info">
+                <div class="left_info hide_scroll">
+                    <img id="preview_image" src="">
+                    <div class="detail_info"><a>Studio: </a><a id="studio"></a></div>
+                    <div class="detail_info"><a>Producers: </a><a id="producers"></a></div>
+                    <div class="detail_info"><a>Source: </a><a id="source"></a></div>
+                    <div class="detail_info"><a>Episode: </a><a id="episodes"></a></div>
+                    <div class="detail_info"><a>Season Year: </a><a id="season"></a></div>
+                    <div class="detail_info"><a>Average Score: </a><a id="average_score"></a></div>
+                    <div class="detail_info"><a>Popularity: </a><a id="popularity"></a></div>
+                    <div class="detail_info"><a>Hashtag: </a><a id="hashtag" target="_blank"></a></div>
+                </div>
+                <div class="right_info hide_scroll">
+                    <div class="detail_anime_name"> <a class="anime_name" id="anime_name"></a></div>
+                    <a id="description"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="/script/main.js">
+</script>
+
+</html>

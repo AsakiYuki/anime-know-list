@@ -1,0 +1,288 @@
+body {
+    background: linear-gradient(to bottom, #0003, #000B), url('/style/background.png');
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+button {
+    cursor: pointer;
+}
+
+* {
+    user-select: none;
+}
+
+a {
+    color: #FFF;
+}
+
+div.body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-width: 90%;
+    width: 1250px;
+    left: 50%;
+    top: 0px;
+    transform: translateX(-50%);
+    position: absolute;
+    height: 100%;
+    background-color: #0008;
+}
+
+div.body::-webkit-scrollbar {
+    background-color: #0008;
+    width: 10px;
+}
+
+div.body::-webkit-scrollbar-thumb {
+    background-color: #FFF8;
+    border-radius: 5px;
+}
+
+div.search {
+    z-index: 100;
+    position: sticky;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+}
+
+div.list {
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+input.search {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%)translateY(-50%);
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    outline: none;
+    background-color: #0008;
+    border: 1px solid #000;
+    padding: 5px;
+    color: #FFF;
+}
+
+input.search:hover {
+    background-color: #1118;
+    border: 1px solid #FFF;
+}
+
+button.anime_item {
+    position: relative;
+    margin: 5px;
+    margin-top: 2.5px;
+    margin-bottom: 2.5px;
+    width: calc(100% - 10px);
+    height: 125px;
+    border: 1px solid #0000;
+    outline: none;
+    background-color: #0008;
+}
+
+button.anime_item:hover {
+    border: 1px solid #FFFF;
+}
+
+img.anime_thumb {
+    padding-right: 3.5px;
+    position: absolute;
+    left: 2.5px;
+    top: 2.5px;
+    width: 87px;
+    height: calc(100% - 5px);
+}
+
+div.anime_info {
+    position: absolute;
+    right: 2.5px;
+    top: 2.5px;
+    width: calc(100% - 100px);
+    height: calc(100% - 5px);
+}
+
+div.anime_name {
+    text-align: left;
+    position: absolute;
+    height: 30px;
+    width: calc(100% - 1px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+div.anime_name a {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 25px;
+    overflow-wrap: break-word;
+}
+
+div.anime_description {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: left;
+    position: absolute;
+    top: 29px;
+    overflow: hidden;
+    height: calc(100% - 48px);
+    text-align: left;
+}
+
+div.anime_description a {
+    color: #FFF8;
+    font-style: italic;
+}
+
+div.episodes {
+    text-align: left;
+    position: absolute;
+    bottom: 2.5px;
+    right: 2.5px;
+    width: calc(100% - 3px);
+    height: 15px;
+}
+
+div.episodes a {
+    color: #FFF8;
+    font-style: italic;
+}
+
+div.pageChange {
+    position: relative;
+    width: calc(100% - 10px);
+    left: 5px;
+    height: 30px;
+}
+
+div.pageChange button {
+    background-color: #0008;
+    border-radius: 5px;
+    height: 30px;
+    width: 45px;
+    outline: none;
+    border: 1px solid #000;
+    color: #FFF;
+}
+
+div.pageChange button:hover {
+    border: 1px solid #FFF;
+    background-color: #1118;
+}
+
+div.pageChange input {
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    color: #FFF;
+    background-color: #0008;
+    padding: 5px;
+    outline: none;
+    width: calc(100% - 100px);
+}
+
+div.pageChange input:hover {
+    border: 1px solid #FFF;
+    background-color: #1118;
+}
+
+div.anime_full_detail {
+    background-color: #0008;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+div.detail_popup {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%)translateY(-50%);
+    width: 1000px;
+    height: 85%;
+    max-width: 90%;
+    border: 1px solid #FFF;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #0008;
+}
+
+button#closeButton {
+    position: absolute;
+    cursor: pointer;
+    right: 15px;
+    top: 15px;
+    padding: 5px;
+    width: 35px;
+    height: 35px;
+    border-radius: 5px;
+    color: #FFF;
+    outline: none;
+    border: 1px solid #FFF;
+    background-color: #FFF5;
+    z-index: 100;
+}
+
+div.hide_scroll {
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
+div.hide_scroll::-webkit-scrollbar {
+    width: 0px;
+}
+
+div.left_info {
+    height: calc(100% - 20px);
+    width: 30%;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding-left: 5px;
+    border-right: 1px solid #FFF8;
+}
+
+div.right_info {
+    height: calc(100% - 20px);
+    width: calc(70% - 40px);
+    top: 10px;
+    right: 10px;
+    position: absolute;
+    padding-left: 5px;
+}
+
+a.anime_name {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 30px;
+}
+
+div.detail_anime_name {
+    position: relative;
+    width: calc(100% - 55px);
+    padding-bottom: 2px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #FFF;
+}
+
+a#description {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+img#preview_image {
+    margin-bottom: 5px;
+    position: relative;
+    width: calc(100% - 15px);
+}
+
+div.detail_info a {
+    font-size: 15px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
