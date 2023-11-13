@@ -108,8 +108,6 @@ const loadInfoByIndex = async (index, isIndex) => {
         canClick = false;
         const infoData = (isIndex) ? (await getAnimeInfoByID(((await (await fetch('./src/data/aniInfo.json')).json()))[index].id)).Media : (await getAnimeInfoByID(index)).Media;
 
-        console.log(infoData)
-
         const studios = [], product = [];
         infoData.studios.edges.forEach(v => {
             if (v.isMain) studios.push(v.node.name)
