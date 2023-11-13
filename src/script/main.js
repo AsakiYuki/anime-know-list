@@ -104,54 +104,41 @@ const innerText = (id, value) => {
 }
 
 const loadInfoByIndex = async (index, isIndex) => {
-    canClick = false;
-    const infoData = (isIndex) ? (await getAnimeInfoByID(((await (await fetch('./src/data/aniInfo.json')).json()))[index].id)).Media : (await getAnimeInfoByID(index)).Media;
+    try {
+        canClick = false;
+        const infoData = (isIndex) ? (await getAnimeInfoByID(((await (await fetch('./src/data/aniInfo.json')).json()))[index].id)).Media : (await getAnimeInfoByID(index)).Media;
 
-    console.log(infoData)
+        console.log(infoData)
 
-    const studios = [], product = [];
-    infoData.studios.edges.forEach(v => {
-        if (v.isMain) studios.push(v.node.name)
-        else product.push(v.node.name)
-    })
+        const studios = [], product = [];
+        infoData.studios.edges.forEach(v => {
+            if (v.isMain) studios.push(v.node.name)
+            else product.push(v.node.name)
+        })
 
-    document.getElementById('preview_image').src = infoData.coverImage.extraLarge;
-    innerText('anime_name', infoData.title.romaji);
-    innerText('description', infoData.description);
-    innerText('studio', studios.join(', '));
-    innerText('producers', product.join(', '));
-    innerText('source', infoData.source)
-    innerText('episodes', infoData.episodes);
-    innerText('season', infoData.seasonYear);
-    innerText('average_score', infoData.averageScore);
-    innerText('popularity', infoData.popularity);
-    innerText('hashtag', infoData.hashtag);
-    document.getElementById('hashtag').href = `https://twitter.com/search?q=${encodeURIComponent(infoData.hashtag)}&src=typed_query`;
-    document.getElementById('anime_full_detail').style.display = ''
+        document.getElementById('preview_image').src = infoData.coverImage.extraLarge;
+        innerText('anime_name', infoData.title.romaji);
+        innerText('description', infoData.description);
+        innerText('studio', studios.join(', '));
+        innerText('producers', product.join(', '));
+        innerText('source', infoData.source)
+        innerText('episodes', infoData.episodes);
+        innerText('season', infoData.seasonYear);
+        innerText('average_score', infoData.averageScore);
+        innerText('popularity', infoData.popularity);
+        innerText('hashtag', infoData.hashtag);
+        document.getElementById('hashtag').href = `https://twitter.com/search?q=${encodeURIComponent(infoData.hashtag)}&src=typed_query`;
+        document.getElementById('anime_full_detail').style.display = ''
 
-    if (infoData.trailer?.id) {
-        document.getElementById('video_trailer').style.display = ''
-        document.getElementById('video_trailer').src = `https://www.youtube.com/embed/${infoData.trailer?.id}?autoplay=1`
-    }
-    else
-        document.getElementById('video_trailer').style.display = 'none'
-}
-
-document.getElementById('inputPage').oninput = async (e) => {
-    const iv = +e.target.value?.match(/\d+/g)?.join('')
-    e.target.value = (iv) ? +iv : 0;
-}
-
-document.getElementById('inputPage').onkeydown = async (e) => {
-    if (e.code === 'Enter') {
-        try {
-            const aniList = (await (await fetch('./src/data/aniInfo.json')).json()).length
-            e.target.value = (+e.target.value < (aniList / 10)) ? e.target.value : Math.floor(aniList / 10);
-            loadPageList(+e.target.value);
-        } catch (error) {
-            alert('This ID is not available!')
-            canClick = true;
+        if (infoData.trailer?.id) {
+            document.getElementById('video_trailer').style.display = ''
+            document.getElementById('video_trailer').src = `https://www.youtube.com/embed/${infoData.trailer?.id}`
         }
+        else
+            document.getElementById('video_trailer').style.display = 'none'
+    } catch (error) {
+        canClick = true;
+        alert('Unable to search for Anime using your Anime ID')
     }
 }
 
@@ -166,11 +153,31 @@ document.getElementById('getAnimeByID').onkeydown = async (e) => {
     }
 }
 
+document.getElementById('inputPage').oninput = async (e) => {
+    const iv = +e.target.value?.match(/\d+/g)?.join('')
+    e.target.value = (iv) ? +iv : 0;
+}
+
+document.getElementById('inputPage').onkeydown = async (e) => {
+    if (e.code === 'Enter') {
+        try {
+            const aniList = (await (await fetch('./src/data/aniInfo.json')).json()).length
+            e.target.value = (+e.target.value < (aniList / 10)) ? e.target.value : Math.floor(aniList / 10);
+            loadPageList(+e.target.value);
+            localStorage.setItem('currentPage', e.target.value)
+        } catch (error) {
+            alert('This ID is not available!')
+            canClick = true;
+        }
+    }
+}
+
 document.getElementById('pageLeft').onclick = async () => {
     const e = document.getElementById('inputPage');
     const aniList = (await (await fetch('./src/data/aniInfo.json')).json()).length;
     e.value = (+e.value - 1 < 0) ? Math.floor(aniList / 10) : e.value - 1;
     loadPageList(+e.value);
+    localStorage.setItem('currentPage', e.value)
 }
 
 document.getElementById('pageRight').onclick = async () => {
@@ -178,6 +185,31 @@ document.getElementById('pageRight').onclick = async () => {
     const aniList = (await (await fetch('./src/data/aniInfo.json')).json()).length;
     e.value = (+e.value + 1 > (aniList / 10)) ? 0 : +e.value + 1;
     loadPageList(+e.value);
+    localStorage.setItem('currentPage', e.value)
 }
 
-loadPageList(0)
+function startup() {
+    const params = new URLSearchParams(location.search.split('?')[1]);
+    const urlData = {
+        page: +params.get('page'),
+        animeID: +params.get('anime'),
+        no_load_page: params.get('loadpage')
+    }
+
+    if (urlData.no_load_page === '0') { }
+    else if (urlData.page) {
+        loadPageList(urlData.page)
+        document.getElementById('inputPage').value = urlData.page;
+    } else {
+        const current = localStorage.getItem('currentPage');
+        loadPageList((current) ? +current : 0)
+        document.getElementById('inputPage').value = (current) ? +current : 0;
+    }
+
+
+    if (urlData.animeID) {
+        loadInfoByIndex(urlData.animeID, false);
+    }
+}
+
+startup()
