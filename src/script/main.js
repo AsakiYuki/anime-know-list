@@ -36,6 +36,10 @@ const getAnimeInfoByID = async (id, isBasic) => {
                 source
                 episodes
                 seasonYear
+                trailer {
+                    id
+                    site
+                }
                 averageScore
                 popularity
                 hashtag
@@ -91,6 +95,7 @@ const loadPageList = async (page) => {
 
 document.getElementById('closeButton').onclick = () => {
     document.getElementById('anime_full_detail').style.display = 'none'
+    document.getElementById('video_trailer').src = ''
     canClick = true;
 }
 
@@ -101,6 +106,8 @@ const innerText = (id, value) => {
 const loadInfoByIndex = async (index, isIndex) => {
     canClick = false;
     const infoData = (isIndex) ? (await getAnimeInfoByID(((await (await fetch('./src/data/aniInfo.json')).json()))[index].id)).Media : (await getAnimeInfoByID(index)).Media;
+
+    console.log(infoData)
 
     const studios = [], product = [];
     infoData.studios.edges.forEach(v => {
@@ -119,8 +126,15 @@ const loadInfoByIndex = async (index, isIndex) => {
     innerText('average_score', infoData.averageScore);
     innerText('popularity', infoData.popularity);
     innerText('hashtag', infoData.hashtag);
-    document.getElementById('hashtag').href = `https://twitter.com/search?q=${infoData.hashtag}&src=typed_query`;
+    document.getElementById('hashtag').href = `https://twitter.com/search?q=${encodeURIComponent(infoData.hashtag)}&src=typed_query`;
     document.getElementById('anime_full_detail').style.display = ''
+
+    if (infoData.trailer?.id) {
+        document.getElementById('video_trailer').style.display = ''
+        document.getElementById('video_trailer').src = `https://www.youtube.com/embed/${infoData.trailer?.id}?autoplay=1`
+    }
+    else
+        document.getElementById('video_trailer').style.display = 'none'
 }
 
 document.getElementById('inputPage').oninput = async (e) => {
@@ -133,7 +147,7 @@ document.getElementById('inputPage').onkeydown = async (e) => {
         try {
             const aniList = (await (await fetch('./src/data/aniInfo.json')).json()).length
             e.target.value = (+e.target.value < (aniList / 10)) ? e.target.value : Math.floor(aniList / 10);
-            loadPageList(+e.value);
+            loadPageList(+e.target.value);
         } catch (error) {
             alert('This ID is not available!')
             canClick = true;

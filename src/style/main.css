@@ -17,6 +17,18 @@ a {
     color: #FFF;
 }
 
+div.detail_popup * {
+    user-select: text;
+}
+
+button.anime_item * {
+    user-select: text;
+}
+
+button {
+    user-select: none;
+}
+
 div.body {
     overflow-x: hidden;
     overflow-y: auto;
@@ -242,7 +254,7 @@ div.hide_scroll::-webkit-scrollbar {
 
 div.left_info {
     height: calc(100% - 20px);
-    width: 30%;
+    width: 250px;
     position: absolute;
     top: 10px;
     left: 10px;
@@ -252,7 +264,7 @@ div.left_info {
 
 div.right_info {
     height: calc(100% - 20px);
-    width: calc(70% - 40px);
+    width: calc(100% - 40px - 250px);
     top: 10px;
     right: 10px;
     position: absolute;
@@ -285,4 +297,9 @@ img#preview_image {
 div.detail_info a {
     font-size: 15px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+iframe#video_trailer {
+    width: calc(100% - 15px);
+    margin-bottom: 5px;
 }
