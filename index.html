@@ -13,12 +13,14 @@
 <body>
     <div class="body">
         <div class="search">
-            <input class="search fa" placeholder=" Search Anime By ID . . ." id="getAnimeByID">
+            <input class="search fa" placeholder="Search Anime Here ... (Anilist ID, Name)" id="getAnimeByID">
+            <button class="searchBtn fa" id="searchAnimeByIDBtn"></button>
         </div>
         <div class="list" id="animeList">
             <div class="pageChange" id="changePage">
                 <button id="pageLeft">
-                    <<< </button><input value="0" id="inputPage"><button id="pageRight"> >>> </button>
+                    <<< </button><input value="0" id="inputPage"><button id="pageRight"> >>> </button><button
+                            id="applyButton" class="applyButton fa"></button>
             </div>
         </div>
     </div>
@@ -38,9 +40,13 @@
                     <div class="detail_info"><a>Average Score: </a><a id="average_score"><a>/100</a></a></div>
                     <div class="detail_info"><a>Popularity: </a><a id="popularity"></a></div>
                     <div class="detail_info"><a>Hashtag: </a><a id="hashtag" target="_blank"></a></div>
+                    <div class="detail_info"><a>Anilist ID: </a><a id="anilistid" target="_blank"></a></div>
                 </div>
                 <div class="right_info hide_scroll">
-                    <div class="detail_anime_name"> <a class="anime_name" id="anime_name"></a></div>
+                    <div class="detail_anime_name"><a title="Open This Anime Fandom" id="setFandomURL"
+                            target="_blank"><img id="fandomImage" src=""></a>
+                        <a class="anime_name" id="anime_name"></a>
+                    </div>
                     <a id="description"></a>
                     <div class="youtube_embed_full_opening">
                     </div>

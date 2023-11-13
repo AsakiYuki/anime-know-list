@@ -57,8 +57,32 @@ div.search {
     position: sticky;
     top: 0px;
     left: 0px;
-    width: 100%;
+    width: calc(100%);
     height: 50px;
+}
+
+div.search input {
+    position: absolute;
+    left: 6px;
+    top: 5px;
+    transform: translateX(0%)translateY(0%);
+    width: calc(100% - 68px);
+}
+
+button.searchBtn {
+    position: absolute;
+    right: 6px;
+    top: 5px;
+    height: 40px;
+    background-color: #0008;
+    color: #FFF;
+    border: 1px solid #000;
+    width: 50px;
+}
+
+button.searchBtn:hover {
+    background-color: #1118;
+    border: 1px solid #FFF;
 }
 
 div.list {
@@ -196,12 +220,18 @@ div.pageChange input {
     background-color: #0008;
     padding: 5px;
     outline: none;
-    width: calc(100% - 100px);
+    width: calc(100% - 152px);
 }
 
 div.pageChange input:hover {
     border: 1px solid #FFF;
     background-color: #1118;
+}
+
+button.applyButton {
+    position: relative;
+    top: 2px;
+    margin-left: 5px;
 }
 
 div.anime_full_detail {
@@ -302,4 +332,14 @@ div.detail_info a {
 iframe#video_trailer {
     width: calc(100% - 15px);
     margin-bottom: 5px;
+}
+
+img#fandomImage {
+    border-radius: 2px;
+    padding: 5px;
+    background-color: #FFF;
+    position: relative;
+    top: 1px;
+    margin-right: 5px;
+    height: 25px;
 }
