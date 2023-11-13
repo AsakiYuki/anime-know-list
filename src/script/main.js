@@ -153,6 +153,8 @@ const loadInfoByIndex = async (index, isIndex) => {
         const searchItem = new URL(await searchFandom(infoData.title.romaji)).origin;
         document.getElementById('setFandomURL').href = searchItem;
         document.getElementById('setSpotifyURL').href = `https://aniplaylist.com/${infoData.title.romaji}`;
+        document.getElementById('setANiiX.TOSrc').href = `https://anix.to/filter?keyword=${infoData.title.romaji}`;
+        document.getElementById('conglightnovelsearch').href = `https://www.novelcool.com/search/?wd=${infoData.title.romaji}`
         document.getElementById('fandomImage').src = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=64&url=${searchItem}`
 
         if (infoData.trailer?.id) {
