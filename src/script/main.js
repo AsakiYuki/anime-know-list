@@ -2,7 +2,7 @@
 
 let canClick = true;
 
-function buildCharacterList(data, elementId, toggleElement) {
+function buildCharacterList(data, elementId, toggleElement, toggleName) {
     const toggle = document.getElementById(toggleElement);
     toggle.style.display = (data.length !== 0) ? '' : 'none';
     toggle.setAttribute('toggle', 'false');
@@ -16,12 +16,12 @@ function buildCharacterList(data, elementId, toggleElement) {
         if (toggleData) toggle.classList.add('active')
         else toggle.classList.remove('active')
     }
-
+    toggle.getElementsByClassName('index')[0].innerHTML = `[${data.length}] ${toggleName}`
     data.forEach(v => {
         const charInfo = document.createElement('div');
         charInfo.className = 'charItem';
         charInfo.setAttribute('type', 'anime_char');
-        charInfo.title = 'Click to Quick Search on Pixiv';
+        charInfo.title = 'Search this character on Google';
         charInfo.innerHTML = `<img id="charPreview" src="${v.char.previewImage}">
             <div class="charInfo">
                 <img class="gender" src="${(v.char.isGirl ? 'https://cdn-icons-png.flaticon.com/512/4022/4022596.png' : 'https://cdn-icons-png.flaticon.com/512/8816/8816572.png')}">
@@ -33,12 +33,11 @@ function buildCharacterList(data, elementId, toggleElement) {
                 </div>` : ''}`;
 
         charInfo.onclick = () => {
-            window.open(`https://www.pixiv.net/en/tags/${v.char.name.full}/artworks`)
+            window.open(`https://www.google.com/search?q=${v.char.name.full}/`)
         }
         toggleInteract.appendChild(charInfo);
     })
 }
-
 function AnalyzeChar(cl) {
     const list = [];
     cl.forEach(v => {
@@ -63,7 +62,6 @@ function AnalyzeChar(cl) {
     });
     return list;
 }
-
 const getAnilistData = async (query) => {
     return (await (await fetch('https://graphql.anilist.co', {
         method: 'POST',
@@ -76,6 +74,20 @@ const getAnilistData = async (query) => {
     })).json()).data.Media;
 }
 
+async function getAllCharacter(type, id) {
+    let backdata = 25;
+    let page = 0;
+    let data = []
+
+    while (backdata >= 25) {
+        const getData = (await getAnilistData(`query {Media (${(typeof id === 'number') ? `id: ${id}` : `search: "${id}"`}, type: ANIME){characters(role: ${type}, perPage: 25, page: ${page}){edges{role,voiceActors (language: JAPANESE){id,gender,name{full,native}},node{id,age,bloodType,favourites,gender,dateOfBirth{year,month,day},name{full,native},image{large}}}}}}`)).characters.edges;
+        backdata = getData.length;
+        data = [...data, ...getData]
+        page++;
+    }
+    return data;
+}
+
 const getAnimeInfoByID = async (id, isBasic) => {
     try {
         if (!['number', 'string'].includes(typeof id)) throw "ID is not a number or string!";
@@ -84,12 +96,9 @@ const getAnimeInfoByID = async (id, isBasic) => {
 
         return (isBasic) ? getAnilistData(query) : {
             info: (await getAnilistData(query)),
-            mainChar: (await getAnilistData(`query {
-                Media (${(typeof id === 'number') ? `id: ${id}` : `search: "${id}"`}, type: ANIME){characters(role: MAIN){edges{role,voiceActors (language: JAPANESE){id,gender,name{full,native}},node{id,age,bloodType,favourites,gender,dateOfBirth{year,month,day},name{full,native},image{large}}}}}}`)),
-            supoChar: (await getAnilistData(`query {
-                Media (${(typeof id === 'number') ? `id: ${id}` : `search: "${id}"`}, type: ANIME){characters(role: SUPPORTING){edges{role,voiceActors (language: JAPANESE){id,gender,name{full,native}},node{id,age,bloodType,favourites,gender,dateOfBirth{year,month,day},name{full,native},image{large}}}}}}`)),
-            backChar: (await getAnilistData(`query {
-                    Media (${(typeof id === 'number') ? `id: ${id}` : `search: "${id}"`}, type: ANIME){characters(role: BACKGROUND){edges{role,voiceActors (language: JAPANESE){id,gender,name{full,native}},node{id,age,bloodType,favourites,gender,dateOfBirth{year,month,day},name{full,native},image{large}}}}}}`))
+            mainChar: await getAllCharacter('MAIN', id),
+            supoChar: await getAllCharacter('SUPPORTING', id),
+            backChar: await getAllCharacter('BACKGROUND', id)
         }
     } catch (error) {
         console.error(error)
@@ -189,9 +198,9 @@ const loadInfoByIndex = async (index, isIndex) => {
         }
         else
             document.getElementById('video_trailer').style.display = 'none';
-        buildCharacterList(AnalyzeChar(data.mainChar.characters.edges), 'main_character_list', 'main_character_list_toggle');
-        buildCharacterList(AnalyzeChar(data.supoChar.characters.edges), 'supporting_character_list', 'supporting_character_list_toggle');
-        buildCharacterList(AnalyzeChar(data.backChar.characters.edges), 'background_character_list', 'background_character_list_toggle');
+        buildCharacterList(AnalyzeChar(data.mainChar), 'main_character_list', 'main_character_list_toggle', 'Main Character');
+        buildCharacterList(AnalyzeChar(data.supoChar), 'supporting_character_list', 'supporting_character_list_toggle', 'Suporting Character');
+        buildCharacterList(AnalyzeChar(data.backChar), 'background_character_list', 'background_character_list_toggle', 'Background Character');
     } catch (error) {
         canClick = true;
         console.warn(error)
