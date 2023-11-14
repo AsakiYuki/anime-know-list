@@ -210,13 +210,16 @@ const loadInfoByIndex = async (index, isIndex) => {
 
 document.getElementById('getAnimeByID').onkeydown = async (e) => {
     if (e.code === 'Enter') {
-        loadInfoByIndex((!+e.target.value) ? e.target.value : +e.target.value, false);
+        if (canClick)
+            loadInfoByIndex((!+e.target.value) ? e.target.value : +e.target.value, false);
     }
 }
 
 document.getElementById('searchAnimeByIDBtn').onclick = () => {
-    const e = document.getElementById('getAnimeByID')
-    loadInfoByIndex((!+e.value) ? e.value : +e.value, false);
+    if (canClick) {
+        const e = document.getElementById('getAnimeByID')
+        loadInfoByIndex((!+e.value) ? e.value : +e.value, false);
+    }
 }
 
 document.getElementById('inputPage').oninput = async (e) => {
