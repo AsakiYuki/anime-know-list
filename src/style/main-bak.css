@@ -1,72 +1,89 @@
+*,
+button {
+    user-select: none
+}
+
+div.body,
+div.detail_popup {
+    max-width: 90%;
+    overflow-x: hidden
+}
+
+div.anime_description,
+div.charInfo a.info,
+div.charInfo a.inside,
+div.charInfo a.name {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+div.anime_description a,
+div.charInfo a.info,
+div.episodes a {
+    color: #fff8;
+    font-style: italic
+}
+
 body {
-    background: linear-gradient(to bottom, #0003, #000B), url('./background.png');
-    background-size: cover;
-    background-position: center;
-    overflow: hidden;
+    background: linear-gradient(to bottom, #0003, #000B) center/cover, url(./background.png) center/cover;
+    overflow: hidden
 }
 
 button {
-    cursor: pointer;
-}
-
-* {
-    user-select: none;
+    cursor: pointer
 }
 
 a {
-    color: #FFF;
+    color: #fff
 }
 
+button.anime_item *,
 div.detail_popup * {
-    user-select: text;
-}
-
-button.anime_item * {
-    user-select: text;
-}
-
-button {
-    user-select: none;
+    user-select: text
 }
 
 div.body {
-    overflow-x: hidden;
     overflow-y: auto;
-    max-width: 90%;
     width: 1250px;
     left: 50%;
-    top: 0px;
+    top: 0;
     transform: translateX(-50%);
     position: absolute;
     height: 100%;
-    background-color: #0008;
+    background-color: #0008
 }
 
 div.body::-webkit-scrollbar {
     background-color: #0008;
-    width: 10px;
+    width: 10px
 }
 
 div.body::-webkit-scrollbar-thumb {
-    background-color: #FFF8;
-    border-radius: 5px;
+    background-color: #fff8;
+    border-radius: 5px
+}
+
+button.searchBtn,
+input.search {
+    border: 1px solid #000;
+    color: #fff;
+    background-color: #000A
 }
 
 div.search {
     z-index: 100;
     position: sticky;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: calc(100%);
-    height: 50px;
+    height: 50px
 }
 
 div.search input {
     position: absolute;
     left: 6px;
     top: 5px;
-    transform: translateX(0%)translateY(0%);
-    width: calc(100% - 68px);
+    transform: translateX(0) translateY(0);
+    width: calc(100% - 68px)
 }
 
 button.searchBtn {
@@ -74,76 +91,68 @@ button.searchBtn {
     right: 6px;
     top: 5px;
     height: 40px;
-    background-color: #000A;
-    color: #FFF;
-    border: 1px solid #000;
-    width: 50px;
+    width: 50px
 }
 
-button.searchBtn:hover {
+div.banner_image::after,
+input.search {
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%)
+}
+
+button.searchBtn:hover,
+div.charItem:hover,
+input.search:hover {
     background-color: #1118;
-    border: 1px solid #FFF;
+    border: 1px solid #fff
 }
 
 div.list {
     width: 100%;
     padding-top: 5px;
-    padding-bottom: 5px;
+    padding-bottom: 5px
+}
+
+button.anime_item,
+input.search {
+    width: calc(100% - 10px);
+    outline: 0
 }
 
 input.search {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%)translateY(-50%);
-    width: calc(100% - 10px);
     height: calc(100% - 10px);
-    outline: none;
-    background-color: #000A;
-    border: 1px solid #000;
-    padding: 5px;
-    color: #FFF;
-}
-
-input.search:hover {
-    background-color: #1118;
-    border: 1px solid #FFF;
+    padding: 5px
 }
 
 button.anime_item {
     position: relative;
-    margin: 5px;
-    margin-top: 2.5px;
-    margin-bottom: 2.5px;
-    width: calc(100% - 10px);
+    margin: 2.5px 5px;
     height: 125px;
     border: 1px solid #0000;
-    outline: none;
-    background-color: #000;
+    background-color: #000
 }
 
 div.banner_image {
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
     min-width: 175px;
     width: 50%;
-    height: 100%;
+    height: 100%
 }
 
 div.banner_image::after {
     content: '';
     position: absolute;
-    transform: translateX(-50%)translateY(-50%);
-    left: 50%;
-    top: 50%;
     width: calc(100% + 2px);
     height: calc(100% + 2px);
-    background: linear-gradient(to left, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1));
+    background: linear-gradient(to left, rgba(0, 0, 0, .5), #000)
 }
 
 button.anime_item:hover {
-    border: 1px solid #FFFF;
+    border: 1px solid #fff
 }
 
 img.anime_thumb {
@@ -152,25 +161,29 @@ img.anime_thumb {
     left: 2.5px;
     top: 2.5px;
     width: 87px;
-    height: calc(100% - 5px);
+    height: calc(100% - 5px)
 }
 
 img.bannerImage {
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
     height: 100%;
     width: 100%;
     object-fit: cover;
-    border: none;
+    border: none
+}
+
+div.anime_info,
+div.episodes {
+    position: absolute;
+    right: 2.5px
 }
 
 div.anime_info {
-    position: absolute;
-    right: 2.5px;
     top: 2.5px;
     width: calc(100% - 100px);
-    height: calc(100% - 5px);
+    height: calc(100% - 5px)
 }
 
 div.anime_name {
@@ -180,42 +193,28 @@ div.anime_name {
     width: calc(100% - 1px);
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis
 }
 
 div.anime_name a {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 25px;
-    overflow-wrap: break-word;
+    overflow-wrap: break-word
 }
 
 div.anime_description {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    text-align: left;
     position: absolute;
     top: 29px;
     overflow: hidden;
     height: calc(100% - 48px);
-    text-align: left;
-}
-
-div.anime_description a {
-    color: #FFF8;
-    font-style: italic;
+    text-align: left
 }
 
 div.episodes {
     text-align: left;
-    position: absolute;
     bottom: 2.5px;
-    right: 2.5px;
     width: calc(100% - 3px);
-    height: 15px;
-}
-
-div.episodes a {
-    color: #FFF8;
-    font-style: italic;
+    height: 15px
 }
 
 div.pageChange {
@@ -223,7 +222,7 @@ div.pageChange {
     bottom: 5px;
     width: calc(100% - 10px);
     left: 5px;
-    height: 30px;
+    height: 30px
 }
 
 div.pageChange button {
@@ -231,14 +230,14 @@ div.pageChange button {
     border-radius: 5px;
     height: 30px;
     width: 45px;
-    outline: none;
+    outline: 0;
     border: 1px solid #000;
-    color: #FFF;
+    color: #fff
 }
 
 div.pageChange button:hover {
-    border: 1px solid #FFF;
-    background-color: #000A;
+    border: 1px solid #fff;
+    background-color: #000A
 }
 
 div.pageChange input {
@@ -247,80 +246,86 @@ div.pageChange input {
     height: 30px;
     border-radius: 5px;
     border: 1px solid #000;
-    color: #FFF;
+    color: #fff;
     background-color: #000A;
     padding: 5px;
-    outline: none;
-    width: calc(100% - 152px);
+    outline: 0;
+    width: calc(100% - 152px)
 }
 
 div.pageChange input:hover {
-    border: 1px solid #FFF;
-    background-color: #1118;
+    border: 1px solid #fff;
+    background-color: #1118
 }
 
 button.applyButton {
     position: relative;
     top: 2px;
-    margin-left: 5px;
+    margin-left: 5px
+}
+
+div.anime_full_detail,
+div.detail_popup {
+    position: absolute;
+    background-color: #0008
 }
 
 div.anime_full_detail {
-    background-color: #0008;
-    position: absolute;
     width: 100%;
     height: 100%;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0
 }
 
 div.detail_popup {
-    overflow-x: hidden;
     overflow-y: auto;
-    position: absolute;
     left: 50%;
     top: 50%;
-    transform: translateX(-50%)translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
     width: 1000px;
     height: 85%;
-    max-width: 90%;
-    border: 1px solid #FFF;
+    border: 1px solid #fff;
     border-radius: 10px;
-    padding: 10px;
-    background-color: #0008;
+    padding: 10px
+}
+
+div.left_info,
+div.right_info {
+    height: calc(100% - 20px);
+    top: 10px;
+    position: absolute;
+    padding-left: 5px
 }
 
 div.hide_scroll {
     overflow-x: hidden;
-    overflow-y: visible;
+    overflow-y: visible
 }
 
 div.hide_scroll::-webkit-scrollbar {
-    width: 0px;
+    width: 0
 }
 
 div.left_info {
-    height: calc(100% - 20px);
     width: 250px;
-    position: absolute;
-    top: 10px;
     left: 10px;
-    padding-left: 5px;
-    border-right: 1px solid #FFF8;
+    border-right: 1px solid #fff8
 }
 
 div.right_info {
-    height: calc(100% - 20px);
     width: calc(100% - 40px - 250px);
-    top: 10px;
-    right: 10px;
-    position: absolute;
-    padding-left: 5px;
+    right: 10px
 }
 
 a.anime_name {
     font-family: Georgia, 'Times New Roman', Times, serif;
-    font-size: 30px;
+    font-size: 30px
+}
+
+a.index,
+div#loading_screen a {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large
 }
 
 div.detail_anime_name {
@@ -328,123 +333,113 @@ div.detail_anime_name {
     width: calc(100% - 55px);
     padding-bottom: 2px;
     margin-bottom: 5px;
-    border-bottom: 1px solid #FFF;
+    border-bottom: 1px solid #fff
 }
 
 a#description {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Times New Roman', Times, serif
 }
 
 img#preview_image {
     margin-bottom: 5px;
     position: relative;
-    width: calc(100% - 15px);
+    width: calc(100% - 15px)
 }
 
 div.detail_info a {
     font-size: 15px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
 }
 
 iframe#video_trailer {
     width: calc(100% - 15px);
-    margin-bottom: 5px;
+    margin-bottom: 5px
 }
 
 img.fandomImage {
     border-radius: 2px;
     padding: 5px;
-    background-color: #FFF;
+    background-color: #fff;
     position: relative;
     top: 1px;
     margin-right: 5px;
-    height: 25px;
+    height: 25px
 }
 
 div#charList {
     width: 100%;
     margin-top: 5px;
     padding-top: 5px;
-    border-top: 1px solid #FFF8;
+    border-top: 1px solid #fff8
 }
 
 div.charItem {
     cursor: pointer;
     overflow: hidden;
     border-radius: 5px;
-    border: 1px solid #FFF8;
+    border: 1px solid #fff8;
     position: relative;
     margin-bottom: 5px;
-    transition: 0.5s;
+    transition: .5s
 }
 
-div.charItem:hover {
-    background-color: #1118;
-    border: 1px solid #FFF;
+a.index,
+div.charInfo {
+    position: absolute;
+    transform: translateY(-50%)
 }
 
 img#charPreview {
     object-fit: cover;
-    border-right: 1px solid #FFF8;
+    border-right: 1px solid #fff8;
     height: 125px;
-    width: 85px;
+    width: 85px
 }
 
 a.index {
-    position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    left: 5px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: large;
+    left: 5px
 }
 
 div.charInfo {
     white-space: nowrap;
     overflow-wrap: break-word;
-    position: absolute;
     top: calc(50% - 1px);
-    transform: translateY(-50%);
-    right: 0px;
-    width: calc(100% - 90px);
+    right: 0;
+    width: calc(100% - 90px)
 }
 
 div.charInfo a.name {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 20px;
+    font-size: 20px
 }
 
 div.charInfo a.inside {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 10px;
+    font-size: 10px
 }
 
 div.charInfo img.gender {
     position: relative;
     top: 3px;
     width: 20px;
-    height: 20px;
+    height: 20px
 }
 
 div.charInfo a.info {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: #FFF8;
-    font-style: italic;
-    font-size: 15px;
+    font-size: 15px
 }
 
 button.index_button {
     margin-bottom: 5px;
     position: relative;
-    transition: 0.5s;
+    transition: .5s;
     padding: 5px;
     height: 35px;
     width: 100%;
     text-align: left;
     background-color: #0000;
-    outline: none;
+    outline: 0;
     border-radius: 5px;
-    border: 1px solid #FFF8;
+    border: 1px solid #fff8
 }
 
 button.index_button a.arrow {
@@ -452,33 +447,30 @@ button.index_button a.arrow {
     right: 10px;
     top: calc(50% - 1px);
     font-size: 35px;
-    transform: translateY(-50%);
+    transform: translateY(-50%)
 }
 
+button.active a.arrow_up,
 button.index_button a.arrow_down {
-    visibility: hidden;
+    visibility: hidden
 }
 
 button.active a.arrow_down {
-    visibility: visible;
-}
-
-button.active a.arrow_up {
-    visibility: hidden;
+    visibility: visible
 }
 
 button.index_button:hover {
-    border: 1px solid #FFF;
-    background-color: #111F;
+    border: 1px solid #fff;
+    background-color: #111
 }
 
 @keyframes loading_circle {
     0% {
-        transform: translateX(-50%)translateY(-50%)rotate(0deg);
+        transform: translateX(-50%) translateY(-50%) rotate(0)
     }
 
     100% {
-        transform: translateX(-50%)translateY(-50%)rotate(360deg);
+        transform: translateX(-50%) translateY(-50%) rotate(360deg)
     }
 }
 
@@ -487,23 +479,21 @@ div#loading_screen {
     text-align: center;
     width: 100%;
     height: 100%;
-    left: 0px;
-    top: 0px;
-    background-color: #000C;
+    left: 0;
+    top: 0;
+    background-color: #000C
 }
 
 div#loading_screen a {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: large;
     position: absolute;
     top: calc(50% + 100px);
-    transform: translateX(-50%)translateY(-50%);
-    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    left: 50%
 }
 
 div#loading_screen a#detect_api_fetching {
     font-size: medium;
-    top: 75%;
+    top: 75%
 }
 
 div#loading_screen img {
@@ -512,30 +502,30 @@ div#loading_screen img {
     left: 50%;
     width: 125px;
     height: 125px;
-    animation: loading_circle 1.5s linear infinite;
+    animation: 1.5s linear infinite loading_circle
 }
 
 button#closeButton {
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
     cursor: pointer;
     padding: 5px;
     width: 35px;
     height: 35px;
     border-radius: 5px;
-    color: #FFF;
-    outline: none;
-    border: 1px solid #FFF;
-    background-color: #FFF5;
-    z-index: 100;
+    color: #fff;
+    outline: 0;
+    border: 1px solid #fff;
+    background-color: #fff5;
+    z-index: 100
 }
 
 div.closeButton {
     position: sticky;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 0px;
-    z-index: 999;
+    height: 0;
+    z-index: 999
 }
