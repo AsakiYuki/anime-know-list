@@ -28,8 +28,8 @@
     <div id="anime_full_detail" class="anime_full_detail" style="display: none;">
         <div class="detail_popup">
             <button id="closeButton">x</button>
-            <div class="full_anime_info">
-                <div class="left_info hide_scroll">
+            <div id="full_anime_info" class="full_anime_info">
+                <div id="left_page" class="left_info hide_scroll">
                     <img id="preview_image" src="">
                     <iframe id="video_trailer" src="" frameborder="0" allow="autoplay;" allowfullscreen></iframe>
                     <div class="detail_info"><a>Studio: </a><a id="studio"></a></div>
@@ -42,18 +42,15 @@
                     <div class="detail_info"><a>Hashtag: </a><a id="hashtag" target="_blank"></a></div>
                     <div class="detail_info"><a>Anilist ID: </a><a id="anilistid" target="_blank"></a></div>
                 </div>
-                <div class="right_info hide_scroll">
+                <div id="right_page" class="right_info hide_scroll">
                     <div class="detail_anime_name">
                         <a title="Fandom" id="setFandomURL" target="_blank"><img id="fandomImage" class="fandomImage"
                                 src="https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=64&url=https://www.fandom.com/"></a>
-
                         <a title="Seach on ANiX.TO" id="setANiiX.TOSrc" href="" target="_blank"><img class="fandomImage"
                                 src="https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=64&url=https://anix.to/"></a>
-
                         <a title="Search on Novel Cool" id="conglightnovelsearch" href="" target="_blank"><img
                                 class="fandomImage"
                                 src="https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=64&url=https://www.novelcool.com/"></a>
-
                         <a title="Search on Spotify" id="setSpotifyURL" href="" target="_blank"><img class="fandomImage"
                                 src="https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=64&url=https://spotify.com/"></a>
 
@@ -88,6 +85,13 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="loading_screen" style="display: none;">
+        <img src="./src/style/loadingCircle.png">
+        <a>Fetching data from Anilist, please wait a moment...</a>
+
+        <a id="detect_api_fetching"></a>
     </div>
 </body>
 

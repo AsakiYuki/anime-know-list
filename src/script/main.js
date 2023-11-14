@@ -33,7 +33,7 @@ function buildCharacterList(data, elementId, toggleElement, toggleName) {
                 </div>` : ''}`;
 
         charInfo.onclick = () => {
-            window.open(`https://www.google.com/search?q=${v.char.name.full}/`)
+            window.open(`https://www.google.com/search?q=${v.char.name.full}`)
         }
         toggleInteract.appendChild(charInfo);
     })
@@ -80,6 +80,7 @@ async function getAllCharacter(type, id) {
     let data = []
 
     while (backdata >= 25) {
+        innerText('detect_api_fetching', `Processing data: ${type} - Amount: ${data.length}`)
         const getData = (await getAnilistData(`query {Media (${(typeof id === 'number') ? `id: ${id}` : `search: "${id}"`}, type: ANIME){characters(role: ${type}, perPage: 25, page: ${page}){edges{role,voiceActors (language: JAPANESE){id,gender,name{full,native}},node{id,age,bloodType,favourites,gender,dateOfBirth{year,month,day},name{full,native},image{large}}}}}}`)).characters.edges;
         backdata = getData.length;
         data = [...data, ...getData]
@@ -137,7 +138,8 @@ const loadPageList = async (page) => {
                 aniBtn.className = 'anime_item';
                 aniBtn.style.display = ((currentPageNow * 10) <= animeIndex && animeIndex < ((currentPageNow + 1) * 10)) ? '' : 'none';
                 aniBtn.setAttribute('index', `${animeIndex}`);
-                aniBtn.innerHTML = `<img class="anime_thumb"src="${data.coverImage.large}"><div class="anime_info"><div class="anime_name"><a>${data.title.romaji}</a></div><div class="anime_description"><a>${data.description}</a></div><div class="episodes"><a>Episodes: ${data.episodes} - Season Year: ${data.seasonYear}</a></div></div>`
+                aniBtn.innerHTML = `${(data.bannerImage) ? `<div class="banner_image"><img class="bannerImage" src="${data.bannerImage}"></div>` : ''}
+                <img class="anime_thumb"src="${data.coverImage.large}"><div class="anime_info"><div class="anime_name"><a>${data.title.romaji}</a></div><div class="anime_description"><a>${data.description}</a></div><div class="episodes"><a>Episodes: ${data.episodes} - Season Year: ${data.seasonYear}</a></div></div>`
                 indexLoaded.push(animeIndex);
                 document.getElementById('animeList').appendChild(aniBtn);
                 document.getElementById('animeList').appendChild(document.getElementById('changePage'));
@@ -162,7 +164,9 @@ const innerText = (id, value) => {
 }
 const loadInfoByIndex = async (index, isIndex) => {
     try {
+        document.getElementById('loading_screen').style.display = '';
         canClick = false;
+        innerText('detect_api_fetching', `Searching of '${index}'...`)
         const data = (isIndex) ? (await getAnimeInfoByID(((await (await fetch('./src/data/aniInfo.json')).json()))[index])) : (await getAnimeInfoByID(index));
 
         const infoData = data.info;
@@ -185,7 +189,9 @@ const loadInfoByIndex = async (index, isIndex) => {
         innerText('hashtag', infoData.hashtag);
         innerText('anilistid', infoData.id);
         document.getElementById('hashtag').href = `https://twitter.com/search?q=${encodeURIComponent(infoData.hashtag)}&src=typed_query`;
-        document.getElementById('anime_full_detail').style.display = ''
+
+
+        innerText('detect_api_fetching', 'Searching for fandom...')
         const searchItem = new URL(await searchFandom(infoData.title.romaji)).origin;
         document.getElementById('setFandomURL').href = searchItem;
         document.getElementById('fandomImage').src = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=64&url=${searchItem}`
@@ -201,9 +207,12 @@ const loadInfoByIndex = async (index, isIndex) => {
         buildCharacterList(AnalyzeChar(data.mainChar), 'main_character_list', 'main_character_list_toggle', 'Main Character');
         buildCharacterList(AnalyzeChar(data.supoChar), 'supporting_character_list', 'supporting_character_list_toggle', 'Suporting Character');
         buildCharacterList(AnalyzeChar(data.backChar), 'background_character_list', 'background_character_list_toggle', 'Background Character');
+        document.getElementById('loading_screen').style.display = 'none';
+        document.getElementById('anime_full_detail').style.display = '';
     } catch (error) {
         canClick = true;
         console.warn(error)
+        document.getElementById('loading_screen').style.display = 'none';
         alert('Unable to search for Anime using your Anime ID')
     }
 }
@@ -270,6 +279,19 @@ document.getElementById('applyButton').onclick = async () => {
     }
 }
 
+const updateBackground = () => {
+    const { clientWidth: x, clientHeight: y } = document.body, isOnPC = x > y;
+
+    const left = document.getElementById('left_page'),
+        right = document.getElementById('right_page'),
+        full = document.getElementById('full_anime_info')
+
+    left.className = (isOnPC) ? 'left_info hide_scroll' : 'hide_scroll';
+    right.className = (isOnPC) ? 'right_info hide_scroll' : 'hide_scroll';
+    document.getElementById('preview_image').style.display = (isOnPC) ? '' : 'none';
+    full.appendChild((isOnPC) ? right : left);
+};
+
 async function startup() {
     const params = new URLSearchParams(location.search.split('?')[1]);
     const urlData = {
@@ -294,6 +316,9 @@ async function startup() {
     } else if (urlData.search) {
         loadInfoByIndex(urlData.search, false);
     }
+
+    updateBackground()
+    window.onresize = updateBackground;
 }
 
 startup()
