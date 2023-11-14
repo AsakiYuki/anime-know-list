@@ -2,6 +2,31 @@
 
 let canClick = true;
 
+function AnalyzeChar(charList) {
+    const cl = charList.characters.edges;
+    const list = [];
+    cl.forEach(v => {
+        list.push({
+            char: {
+                id: v.node.id,
+                age: v.node.age,
+                bloodType: v.node.bloodType,
+                favourites: v.node.favourites,
+                isGirl: v.node.gender === 'Female',
+                dateOfBirth: (v.node.dateOfBirth.day || v.node.dateOfBirth.month || v.node.dateOfBirth.year) ? `${v.node.dateOfBirth.day}/${v.node.dateOfBirth.month}/${v.node.dateOfBirth.year}`.replace(/\/null/g, '') : undefined,
+                name: v.node.name,
+                previewImage: v.node.image.large
+            },
+            voice: {
+                id: v.voiceActors[0].id,
+                isGirl: v.voiceActors[0].gender === 'Female',
+                name: v.voiceActors[0].name
+            }
+        })
+    });
+    return list;
+}
+
 const getAnimeInfoByID = async (id, isBasic) => {
     try {
         if (!['number', 'string'].includes(typeof id)) throw "ID is not a number or string!";
@@ -47,6 +72,38 @@ const getAnimeInfoByID = async (id, isBasic) => {
                 id
                 coverImage {
                     extraLarge
+                }
+
+                characters (role: MAIN) {
+                    edges {
+                        voiceActors (language: JAPANESE) {
+                            id
+                            gender
+                            name {
+                                full
+                                native
+                            }
+                        }
+                        node {
+                            id
+                            age
+                            bloodType
+                            favourites
+                            gender
+                            dateOfBirth {
+                                year
+                                month
+                                day
+                            }
+                            name {
+                                full
+                                native
+                            }
+                            image {
+                                large
+                            }
+                        }
+                    }
                 }
             }
         }`;
@@ -117,6 +174,9 @@ const loadPageList = async (page) => {
 document.getElementById('closeButton').onclick = () => {
     document.getElementById('anime_full_detail').style.display = 'none'
     document.getElementById('video_trailer').src = ''
+    for (const e of document.querySelectorAll('[type="anime_char"]')) {
+        e.remove()
+    }
     canClick = true;
 }
 
@@ -152,17 +212,40 @@ const loadInfoByIndex = async (index, isIndex) => {
 
         const searchItem = new URL(await searchFandom(infoData.title.romaji)).origin;
         document.getElementById('setFandomURL').href = searchItem;
+        document.getElementById('fandomImage').src = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=64&url=${searchItem}`
+
         document.getElementById('setSpotifyURL').href = `https://open.spotify.com/search/${infoData.title.romaji}`;
         document.getElementById('setANiiX.TOSrc').href = `https://anix.to/filter?keyword=${infoData.title.romaji}`;
         document.getElementById('conglightnovelsearch').href = `https://www.novelcool.com/search/?wd=${infoData.title.romaji}`
-        document.getElementById('fandomImage').src = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&size=64&url=${searchItem}`
 
         if (infoData.trailer?.id) {
             document.getElementById('video_trailer').style.display = ''
             document.getElementById('video_trailer').src = `https://www.youtube.com/embed/${infoData.trailer?.id}?autoplay=1`
         }
         else
-            document.getElementById('video_trailer').style.display = 'none'
+            document.getElementById('video_trailer').style.display = 'none';
+
+        const characterData = AnalyzeChar(infoData);
+        characterData.forEach(v => {
+            const charInfo = document.createElement('div');
+            charInfo.className = 'charItem';
+            charInfo.setAttribute('type', 'anime_char');
+            charInfo.title = 'Click to Quick Search on Pixiv';
+            charInfo.innerHTML = `<img id="charPreview" src="${v.char.previewImage}">
+                <div class="charInfo">
+                    <img class="gender" src="${(v.char.isGirl ? 'https://cdn-icons-png.flaticon.com/512/4022/4022596.png' : 'https://cdn-icons-png.flaticon.com/512/8816/8816572.png')}">
+                    <a class="name">[${v.char.id}] ${v.char.name.full} <a class="inside">/ ${v.char.name.native}</a></a><br>
+                    <a class="info" ${(!v.char.dateOfBirth) ? 'style="display: none"' : ''}>Birthday: ${v.char.dateOfBirth} - Age: ${v.char.age}<br></a>
+                    <a class="info" ${(!v.char.bloodType) ? 'style="display: none"' : ''}>Bloodtype: ${v.char.bloodType}<br></a>
+                    <a class="info">Favourites: ${v.char.favourites}<br></a>
+                    <a class="info">Voice: <img style="width: 15px; height: 15px;" class="gender" src="${(v.voice.isGirl ? 'https://cdn-icons-png.flaticon.com/512/4022/4022596.png' : 'https://cdn-icons-png.flaticon.com/512/8816/8816572.png')}"> [${v.voice.id}] ${v.voice.name.full} - ${v.voice.name.native}</a>
+                </div>`
+
+            charInfo.onclick = () => {
+                window.open(`https://www.pixiv.net/en/tags/${v.char.name.full}/artworks`)
+            }
+            document.getElementById('charList').appendChild(charInfo);
+        })
     } catch (error) {
         canClick = true;
         alert('Unable to search for Anime using your Anime ID')
