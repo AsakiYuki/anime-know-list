@@ -205,7 +205,7 @@ const loadInfoByIndex = async (index, isIndex) => {
         document.getElementById('setSteamWorkshop').href = `https://steamcommunity.com/workshop/browse/?appid=431960&searchtext=${infoData.title.romaji}&requiredtags%5B%5D=Anime`
         if (infoData.trailer?.id) {
             document.getElementById('video_trailer').style.display = ''
-            document.getElementById('video_trailer').src = `https://www.youtube.com/embed/${infoData.trailer?.id}?autoplay=1`
+            document.getElementById('video_trailer').src = `https://www.youtube.com/embed/${infoData.trailer?.id}`
         }
         else
             document.getElementById('video_trailer').style.display = 'none';
